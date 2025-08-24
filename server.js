@@ -27,11 +27,6 @@ connectDB();
 
 // Security middleware
 app.use(helmet());
-app.use(cors({
-  credentials: false, // Set to false when using wildcard origin
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
-  allowedHeaders: ['*']
-}));
 
 // Rate limiting
 const limiter = rateLimit({
@@ -44,6 +39,13 @@ app.use(limiter);
 // Body parsing middleware
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+
+// The minimal CORS fix - just one line
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  if (req.method === 'OPTIONS') return res.sendStatus(200);
+  next();
+});
 
 // Routes
 app.use('/api/auth', authRoutes);
