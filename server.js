@@ -40,23 +40,13 @@ app.use(limiter);
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-// The minimal CORS fix - just one line
-// This handles BOTH preflight (OPTIONS) and actual requests
-app.use((req, res, next) => {
-  // Always set CORS headers for ALL requests
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-  
-  // Handle preflight OPTIONS request
-  if (req.method === 'OPTIONS') {
-    // Send success response for preflight
-    return res.status(200).json({});
-  }
-  
-  // Continue to actual route handler
-  next();
-});
+// Enable CORS
+app.use(cors({
+  origin: ['https://lensora.netlify.app'],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
 
 // Routes
