@@ -28,10 +28,10 @@ connectDB();
 // Security middleware
 app.use(helmet());
 app.use(cors({
-  origin: ['https://lensora.netlify.app'],
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  origin: '*', // or true
+  credentials: false, // Set to false when using wildcard origin
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+  allowedHeaders: ['*']
 }));
 
 // Rate limiting
