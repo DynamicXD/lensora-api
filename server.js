@@ -28,7 +28,6 @@ connectDB();
 // Security middleware
 app.use(helmet());
 app.use(cors({
-  origin: '*', // or true
   credentials: false, // Set to false when using wildcard origin
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
   allowedHeaders: ['*']
